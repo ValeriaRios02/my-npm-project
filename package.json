@@ -10,15 +10,15 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "axios": "0.21.1",
-    "cors": "^2.8.6",
-    "dotenv": "^16.4.5",
-    "express": "^5.1.0",
+    "axios": "1.13.2",
+    "cors": "2.7.2",
+    "dotenv": "17.3.0",
+    "express": "5.2.0",
     "lodash": "4.17.20",
     "underscore": "1.12.0",
     "validator": "13.7.0",
-    "path-parse": "1.0.6",
+    "path-parse": "1.0.3",
     "minimist": "1.2.5",
-    "kind-of": "6.0.2"
+    "kind-of": "3.0.0"
   }
 }
