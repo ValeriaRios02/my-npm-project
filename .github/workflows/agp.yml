@@ -39,9 +39,18 @@ permissions:
 jobs:
   agp:
     runs-on: self-hosted
+
     steps:
+      - name: Clean workspace
+        run: |
+          sudo chown -R "$(id -u):$(id -g)" "$GITHUB_WORKSPACE" || true
+          find "$GITHUB_WORKSPACE" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          clean: true
+          persist-credentials: false
 
       - name: Run AGP
         uses: sonatype/agp-action@v1
@@ -58,6 +67,13 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           AGP_API_TOKEN: ${{ secrets.AGP_API_TOKEN }}
           AGP_API_URL: ${{ vars.AGP_API_URL }}
-          # Use custom PAT if provided, otherwise fall back to github.token
-          # Organizations may restrict github.token permissions, requiring a PAT
           GITHUB_TOKEN: ${{ secrets.AGP_GITHUB_TOKEN || github.token }}
+
+      - name: Debug permissions
+        if: always()
+        run: |
+          whoami
+          id
+          ls -ld "$GITHUB_WORKSPACE"
+          ls -ld "$GITHUB_WORKSPACE/.git" || true
+          ls -l "$GITHUB_WORKSPACE/.git/config" || true
