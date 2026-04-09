@@ -4,7 +4,8 @@
   "description": "A basic Express web server",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "build": "true"
   },
   "keywords": [],
   "author": "",
