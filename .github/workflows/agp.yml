@@ -26,11 +26,6 @@ on:
       vulnerabilities:
         description: 'JSON array of vulnerabilities to fix'
         required: false
-      verbose:
-        description: 'Enable verbose output (may expose sensitive data in logs)'
-        required: false
-        default: 'false'
-        type: boolean
 
 permissions:
   contents: write
@@ -51,7 +46,7 @@ jobs:
           create-pr: 'true'
           draft-pr: 'true'
           enable-agent: 'false'
-          verbose: ${{ inputs.verbose }}
+          verbose: 'true'
           docker-registry: sonatype.repo.sonatype.app/docker-all
           docker-username: ${{ secrets.SONATYPE_DOCKER_USERNAME }}
           docker-password: ${{ secrets.SONATYPE_DOCKER_PASSWORD }}
