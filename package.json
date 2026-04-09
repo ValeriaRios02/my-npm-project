@@ -12,7 +12,6 @@
   "dependencies": {
     "axios": "1.13.2",
     "cors": "2.7.2",
-    "dotenv": "17.3.0",
     "express": "5.2.0",
     "lodash": "4.17.20",
     "underscore": "1.12.0",

@@ -42,8 +42,13 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Clean workspace
+      - name: Pre-clean and inspect workspace
         run: |
+          echo "runner user: $(whoami)"
+          echo "workspace: $GITHUB_WORKSPACE"
+          ls -ld "$GITHUB_WORKSPACE" || true
+          ls -ld "$GITHUB_WORKSPACE/.git" || true
+          ls -l "$GITHUB_WORKSPACE/.git/config" || true
           sudo chown -R "$(id -u):$(id -g)" "$GITHUB_WORKSPACE" || true
           find "$GITHUB_WORKSPACE" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
 
@@ -69,11 +74,12 @@ jobs:
           AGP_API_URL: ${{ vars.AGP_API_URL }}
           GITHUB_TOKEN: ${{ secrets.AGP_GITHUB_TOKEN || github.token }}
 
-      - name: Debug permissions
+      - name: Post-debug
         if: always()
         run: |
           whoami
           id
-          ls -ld "$GITHUB_WORKSPACE"
+          ls -ld "$GITHUB_WORKSPACE" || true
           ls -ld "$GITHUB_WORKSPACE/.git" || true
           ls -l "$GITHUB_WORKSPACE/.git/config" || true
+          git config --local --list || true
