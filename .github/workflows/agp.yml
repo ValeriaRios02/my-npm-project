@@ -40,46 +40,21 @@ permissions:
 jobs:
   agp:
     runs-on: self-hosted
-
     steps:
-      - name: Pre-clean and inspect workspace
-        run: |
-          echo "runner user: $(whoami)"
-          echo "workspace: $GITHUB_WORKSPACE"
-          ls -ld "$GITHUB_WORKSPACE" || true
-          ls -ld "$GITHUB_WORKSPACE/.git" || true
-          ls -l "$GITHUB_WORKSPACE/.git/config" || true
-          sudo chown -R "$(id -u):$(id -g)" "$GITHUB_WORKSPACE" || true
-          find "$GITHUB_WORKSPACE" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
-
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          clean: true
-          persist-credentials: false
 
       - name: Run AGP
         uses: sonatype/agp-action@v1
         with:
           mode: ${{ inputs.mode }}
-          vulnerabilities: ${{ inputs.vulnerabilities }}
           create-pr: 'true'
-          dry-run: 'false'
+          draft-pr: 'true'
+          enable-agent: 'false'
           verbose: ${{ inputs.verbose }}
           docker-registry: sonatype.repo.sonatype.app/docker-all
           docker-username: ${{ secrets.SONATYPE_DOCKER_USERNAME }}
           docker-password: ${{ secrets.SONATYPE_DOCKER_PASSWORD }}
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          AGP_API_URL: ${{ vars.AGP_API_URL }}
-          GITHUB_TOKEN: ${{ secrets.AGP_GITHUB_TOKEN || github.token }}
-
-      - name: Post-debug
-        if: always()
-        run: |
-          whoami
-          id
-          ls -ld "$GITHUB_WORKSPACE" || true
-          ls -ld "$GITHUB_WORKSPACE/.git" || true
-          ls -l "$GITHUB_WORKSPACE/.git/config" || true
-          git config --local --list || true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AGP_API_URL: https://api.vrios.guide-dev.sonatype.dev
