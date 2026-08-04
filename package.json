@@ -80,7 +80,7 @@
     "swagger-ui-express": "^5.0.0",
     "tsyringe": "^4.8.0",
     "underscore": "^1.13.6",
-    "uuid": "^9.0.1",
+    "uuid": "^14.0.1",
     "validator": "^13.11.0",
     "winston": "^3.11.0",
     "xml2js": "^0.6.2"
