@@ -5,12 +5,21 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>my-npm-project</artifactId>
+    <artifactId>multi-module-parent</artifactId>
     <version>1.0.0</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
-    <name>My Test Project</name>
-    <description>Test project with vulnerable dependencies for AgentP testing</description>
+    <name>Multi-Module Parent (GUIDE-2030 Test)</name>
+    <description>
+        Test project for GUIDE-2030: Multi-module Maven project where child modules
+        declare different groupIds than the parent. This pattern is valid in Maven
+        but currently causes AGP to misidentify internal modules as external dependencies.
+    </description>
+
+    <modules>
+        <module>api</module>
+        <module>impl</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -18,6 +27,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <!-- External dependency at parent level - should be detected and analyzed -->
     <dependencies>
         <!-- Log4j with critical Log4Shell vulnerability (CVE-2021-44228, CVSS 10.0) -->
         <dependency>
@@ -31,33 +41,6 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.9.0</version>
-        </dependency>
-
-        <!-- Spring-web with RCE vulnerability -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>5.0.0.RELEASE</version>
-        </dependency>
-
-        <!-- Commons-io with moderate vulnerability -->
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.4</version>
-        </dependency>
-
-        <!-- Additional vulnerable dependencies -->
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>23.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
-            <version>4.0</version>
         </dependency>
     </dependencies>
 

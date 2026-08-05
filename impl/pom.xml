@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.example</groupId>
+        <artifactId>multi-module-parent</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <!-- CRITICAL: This module declares its OWN groupId, DIFFERENT from parent -->
+    <!-- This is the pattern that triggers GUIDE-2030 bug -->
+    <groupId>com.example.subproject</groupId>
+    <artifactId>impl</artifactId>
+    <packaging>jar</packaging>
+
+    <name>Implementation Module</name>
+    <description>
+        This module declares its own groupId (com.example.subproject) that differs
+        from the parent's groupId (com.example).
+
+        This is a valid Maven pattern but currently causes AGP to misidentify this
+        module as an external dependency instead of filtering it as an internal module.
+    </description>
+
+    <dependencies>
+        <!-- Commons-io with moderate vulnerability - external dependency -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+
+        <!-- Guava with vulnerability - external dependency -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>23.0</version>
+        </dependency>
+
+        <!-- Dependency on sibling module api -->
+        <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>
